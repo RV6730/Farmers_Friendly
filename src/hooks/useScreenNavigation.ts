@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export type ScreenType = 'home' | 'camera' | 'analyzing' | 'result' | 'sent' | 'calculator' | 'mesh' | 'ussd' | 'expert' | 'chat' | 'expertDirectory';
+export type ScreenType = 'home' | 'camera' | 'analyzing' | 'result' | 'sent' | 'calculator' | 'mesh' | 'ussd' | 'expert' | 'chat' | 'expertDirectory' | 'gis';
 
 export function useScreenNavigation() {
   const [screen, setScreen] = useState<ScreenType>('home');

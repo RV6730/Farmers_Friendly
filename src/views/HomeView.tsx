@@ -29,26 +29,22 @@ export function HomeView({ setScreen, isOffline }: { setScreen: (s: any) => void
         </div>
       </div>
 
-      {/* Active Ticket Alert */}
-      <button 
-        aria-label="View Active Ticket"
-        onClick={() => setScreen('expert')}
-        className="w-full text-left mb-5 bg-white dark:bg-slate-800 border border-teal-200 dark:border-teal-900/50 rounded-2xl p-4 shadow-sm relative overflow-hidden active:scale-95 transition-all block focus:outline-none focus:ring-2 focus:ring-teal-500"
-      >
-        <div className="absolute top-0 left-0 w-1.5 h-full bg-orange-500"></div>
-        <div className="flex justify-between items-center pl-2">
-          <div>
-            <span className="text-[10px] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-widest block mb-1">Ticket Updated</span>
-            <h3 className="font-bold text-gray-900 dark:text-white text-sm">Expert Assigned: Leaf Rust</h3>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Dr. Suresh has reviewed your payload.</p>
-          </div>
-          <div className="bg-orange-50 dark:bg-orange-950 text-orange-700 dark:text-orange-400 p-2 rounded-full border border-orange-100 dark:border-orange-900">
-            <ArrowRight size={16} aria-label="Go to ticket" />
-          </div>
-        </div>
-      </button>
-
       <div className="grid grid-cols-2 gap-3">
+        {/* GIS Farm Mapping - MOVED TO TOP */}
+        <button 
+          aria-label="View Farm GIS Map"
+          onClick={() => setScreen('gis')}
+          className="col-span-2 bg-[#2d6a4f] dark:bg-[#1b4332] border border-[#1b4332] dark:border-[#081c15] rounded-2xl p-4 text-left shadow-md flex items-center gap-3 active:scale-95 transition-all outline-none focus:ring-2 focus:ring-[#52b788]"
+        >
+          <div className="bg-[#40916c] dark:bg-[#2d6a4f] p-3 rounded-xl text-white shadow-inner">
+            <MapPin size={24} aria-label="Map icon" />
+          </div>
+          <div>
+            <h3 className="font-bold text-white text-base leading-tight mb-0.5">Farm GIS Map</h3>
+            <p className="text-xs text-[#b7e4c7] dark:text-[#95d5b2] line-clamp-1">View ISRO Bhuvan topographical land data.</p>
+          </div>
+        </button>
+
         {/* Core AI Triage */}
         <button 
           aria-label="Crop Disease Scan"
@@ -112,6 +108,25 @@ export function HomeView({ setScreen, isOffline }: { setScreen: (s: any) => void
           </div>
         </button>
 
+        {/* Active Ticket Alert - MOVED HERE */}
+        <button 
+          aria-label="View Active Ticket"
+          onClick={() => setScreen('expert')}
+          className="col-span-2 w-full text-left bg-white dark:bg-slate-800 border border-orange-200 dark:border-orange-900/50 rounded-2xl p-4 shadow-sm relative overflow-hidden active:scale-95 transition-all block focus:outline-none focus:ring-2 focus:ring-orange-500"
+        >
+          <div className="absolute top-0 left-0 w-1.5 h-full bg-orange-500"></div>
+          <div className="flex justify-between items-center pl-2">
+            <div>
+              <span className="text-[10px] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-widest block mb-1">Ticket Updated</span>
+              <h3 className="font-bold text-gray-900 dark:text-white text-sm">Expert Assigned: Leaf Rust</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Dr. Suresh has reviewed your payload.</p>
+            </div>
+            <div className="bg-orange-50 dark:bg-orange-950 text-orange-700 dark:text-orange-400 p-2 rounded-full border border-orange-100 dark:border-orange-900 shrink-0 ml-2">
+              <ArrowRight size={16} aria-label="Go to ticket" />
+            </div>
+          </div>
+        </button>
+
         {/* USSD Market Shield */}
         <button 
           aria-label="USSD Market Shield"
@@ -124,7 +139,7 @@ export function HomeView({ setScreen, isOffline }: { setScreen: (s: any) => void
             </h3>
             <p className="text-slate-300 text-xs max-w-[200px]">Dial direct codes to check real Mandi prices offline.</p>
           </div>
-          <div className="bg-slate-700 p-3 rounded-full text-white">
+          <div className="bg-slate-700 p-3 rounded-full text-white shrink-0 ml-2">
             <Zap size={20} className="fill-current text-amber-400" aria-label="Lightning bolt icon" />
           </div>
         </button>

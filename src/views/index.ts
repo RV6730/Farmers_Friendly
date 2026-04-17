@@ -9,3 +9,4 @@ export * from './SentView';
 export * from './ExpertView';
 export * from './ChatView';
 export * from './ExpertDirectoryView';
+export * from './GisMapView';

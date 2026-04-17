@@ -8,7 +8,7 @@ interface BottomNavProps {
 }
 
 export function BottomNav({ screen, setScreen }: BottomNavProps) {
-  if (screen !== 'home' && screen !== 'calculator' && screen !== 'mesh') {
+  if (screen !== 'home' && screen !== 'calculator' && screen !== 'mesh' && screen !== 'gis') {
     return null;
   }
 

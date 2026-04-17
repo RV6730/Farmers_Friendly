@@ -14,7 +14,8 @@ import {
   SentView, 
   ExpertView, 
   ChatView, 
-  ExpertDirectoryView 
+  ExpertDirectoryView,
+  GisMapView
 } from './views';
 
 export default function App() {
@@ -112,6 +113,7 @@ export default function App() {
                 {screen === 'expert' && <ExpertView onBack={() => setScreen('home')} onChat={() => setScreen('chat')} expert={selectedExpert} />}
                 {screen === 'chat' && <ChatView onBack={() => setScreen('expert')} isOffline={isOffline} />}
                 {screen === 'expertDirectory' && <ExpertDirectoryView onBack={() => setScreen('home')} onSelectExpert={handleSelectExpert} isOffline={isOffline} />}
+                {screen === 'gis' && <GisMapView onBack={() => setScreen('home')} setScreen={setScreen} isOffline={isOffline} />}
               </div>
             </motion.div>
           </AnimatePresence>
