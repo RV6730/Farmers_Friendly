@@ -34,22 +34,34 @@ class MatchingService:
         # to find and update matching unassigned tickets:
         
         match_query = """
-            WITH matched_tickets AS (
+            WITH unassigned AS (
                 SELECT 
                     t.id as ticket_id,
+                    t.escalation_tier,
+                    sp.ai_disease_guess,
+                    f.region as farmer_region
+                FROM tickets t
+                JOIN smart_payloads sp ON t.payload_id = sp.id
+                JOIN farmers f ON t.farmer_id = f.id
+                WHERE t.expert_id IS NULL
+            ),
+            matched_tickets AS (
+                SELECT 
+                    u.ticket_id,
                     (
                         SELECT e.id
                         FROM experts e
-                        WHERE e.tier = t.escalation_tier
+                        WHERE e.tier = u.escalation_tier
                           -- Try to match the expert's specialization with the Edge AI's diagnosis
-                          AND (e.specialization ILIKE '%' || sp.ai_disease_guess || '%' 
-                               OR sp.ai_disease_guess IS NULL)
-                        ORDER BY e.rating DESC
+                          AND (e.specialization ILIKE '%' || u.ai_disease_guess || '%' 
+                               OR u.ai_disease_guess IS NULL)
+                        -- Prioritize local experts in the same region, then fallback to rating
+                        ORDER BY 
+                            CASE WHEN e.location = u.farmer_region THEN 1 ELSE 0 END DESC,
+                            e.rating DESC
                         LIMIT 1
                     ) as best_expert_id
-                FROM tickets t
-                JOIN smart_payloads sp ON t.payload_id = sp.id
-                WHERE t.expert_id IS NULL
+                FROM unassigned u
             )
             UPDATE tickets
             SET 

@@ -1,10 +1,24 @@
 from fastapi import APIRouter, HTTPException, BackgroundTasks
+from pydantic import BaseModel, ConfigDict, Field
 from models.schemas import OfflineSyncRequest, OfflineSyncResponse
 from services.matching_service import MatchingService
+from services.ml_prediction_service import ml_predictor
 import logging
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
+
+class FertilizerPredictionRequest(BaseModel):
+    nitrogen: float = Field(..., ge=0, le=100)
+    phosphorus: float = Field(..., ge=0, le=100)
+    potassium: float = Field(..., ge=0, le=100)
+    temperature: float = Field(..., description="Temperature in Celsius")
+    moisture: float = Field(..., ge=0, le=100)
+    use_deep_learning: bool = True
+
+class FertilizerPredictionResponse(BaseModel):
+    recommended_fertilizer_kg: float
+    model_used: str
 
 async def run_matching_engine_background():
     """Runs the ticket-to-expert router asynchronously after data sync."""
@@ -41,3 +55,28 @@ async def sync_offline_records(request: OfflineSyncRequest, background_tasks: Ba
     except Exception as e:
         logger.error(f"Sync failed: {e}")
         raise HTTPException(status_code=500, detail="Internal server error during DB synchronization.")
+
+@router.post("/predict-fertilizer", response_model=FertilizerPredictionResponse)
+def predict_fertilizer_req(request: FertilizerPredictionRequest):
+    """
+    ML Prediction Endpoint:
+    Uses trained Scikit-Learn Regression & TensorFlow DNN models 
+    to return optimal crop yields or fertilizer inputs.
+    """
+    try:
+        prediction = ml_predictor.predict_fertilizer(
+            n=request.nitrogen,
+            p=request.phosphorus,
+            k=request.potassium,
+            temp=request.temperature,
+            moisture=request.moisture,
+            use_tf=request.use_deep_learning
+        )
+        
+        return FertilizerPredictionResponse(
+            recommended_fertilizer_kg=prediction["recommended_fertilizer_kg"],
+            model_used=prediction["model_used"]
+        )
+    except Exception as e:
+        logger.error(f"Prediction failed: {e}")
+        raise HTTPException(status_code=500, detail="Error generating ML prediction.")

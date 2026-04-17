@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Camera, CloudRain, Sun, Wind, MapPin, AlertCircle, Image as ImageIcon, CheckCircle, WifiOff, ArrowLeft, Send, RefreshCw, CheckCircle2, Database, Calculator, Radio, Hash, Droplet, ShieldAlert, Home, Zap, Delete, Phone, CloudLightning, Star, Award, MessageCircle, ArrowRight, Search, Users } from 'lucide-react';
 
 export default function App() {
@@ -40,12 +40,12 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#E8F3E8] flex flex-col lg:flex-row items-center justify-center p-4 gap-8 font-sans">
+    <div className="min-h-screen bg-[#F4F1EA] flex flex-col lg:flex-row items-center justify-center p-4 gap-8 font-sans">
       
-      {/* Simulation Controls Panel (For Hackathon Judges) */}
-      <div className="hidden lg:flex flex-col bg-white p-6 rounded-2xl shadow-xl border border-green-100 w-80 shrink-0">
-        <h3 className="text-lg font-bold text-gray-900 mb-2 border-b pb-2">Hackathon Demo Panel</h3>
-        <p className="text-sm text-gray-600 mb-6">Simulate field constraints for the judges.</p>
+      {/* Simulation Controls Panel (For Developers) */}
+      <div className="hidden lg:flex flex-col bg-white p-6 rounded-2xl shadow-xl border border-teal-100 w-80 shrink-0">
+        <h3 className="text-lg font-bold text-gray-900 mb-2 border-b pb-2">Field Environment Simulator</h3>
+        <p className="text-sm text-gray-600 mb-6">Simulate rural constraints.</p>
         
         <div className="space-y-4">
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl border">
@@ -86,7 +86,7 @@ export default function App() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-900 rounded-b-[16px] z-50"></div>
         
         {/* Status Bar */}
-        <div className="w-full bg-green-700 text-white pt-6 pb-2 px-6 flex justify-between items-center text-xs font-medium z-40 relative">
+        <div className="w-full bg-teal-800 text-white pt-6 pb-2 px-6 flex justify-between items-center text-xs font-medium z-40 relative">
           <span>09:41</span>
           <div className="flex items-center gap-2">
             {isOffline ? (
@@ -131,16 +131,16 @@ export default function App() {
         {/* Bottom Navigation */}
         {(screen === 'home' || screen === 'calculator' || screen === 'mesh') && (
           <div className="bg-white border-t border-gray-200 px-6 py-3 flex justify-between items-center pb-6">
-            <button onClick={() => setScreen('home')} className={`flex flex-col items-center flex-1 ${screen === 'home' ? 'text-green-700' : 'text-gray-400'}`}>
-              <Home size={22} className={screen === 'home' ? 'fill-green-50' : ''} />
+            <button onClick={() => setScreen('home')} className={`flex flex-col items-center flex-1 ${screen === 'home' ? 'text-teal-800' : 'text-gray-400'}`}>
+              <Home size={22} className={screen === 'home' ? 'fill-teal-50' : ''} />
               <span className="text-[10px] font-bold mt-1">Farm</span>
             </button>
-            <button onClick={() => setScreen('calculator')} className={`flex flex-col items-center flex-1 ${screen === 'calculator' ? 'text-green-700' : 'text-gray-400'}`}>
-              <Calculator size={22} className={screen === 'calculator' ? 'fill-green-50' : ''} />
+            <button onClick={() => setScreen('calculator')} className={`flex flex-col items-center flex-1 ${screen === 'calculator' ? 'text-teal-800' : 'text-gray-400'}`}>
+              <Calculator size={22} className={screen === 'calculator' ? 'fill-teal-50' : ''} />
               <span className="text-[10px] font-bold mt-1">Inputs</span>
             </button>
-            <button onClick={() => setScreen('mesh')} className={`flex flex-col items-center flex-1 ${screen === 'mesh' ? 'text-green-700' : 'text-gray-400'}`}>
-              <Radio size={22} className={screen === 'mesh' ? 'fill-green-50' : ''} />
+            <button onClick={() => setScreen('mesh')} className={`flex flex-col items-center flex-1 ${screen === 'mesh' ? 'text-teal-800' : 'text-gray-400'}`}>
+              <Radio size={22} className={screen === 'mesh' ? 'fill-teal-50' : ''} />
               <span className="text-[10px] font-bold mt-1">Weather</span>
             </button>
           </div>
@@ -163,7 +163,7 @@ function HomeView({ setScreen, isOffline }: { setScreen: (s: any) => void, isOff
             <MapPin size={14} /> Pune District
           </p>
         </div>
-        <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-700 font-bold text-xl relative">
+        <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center text-amber-700 font-bold text-xl relative">
           R
           {isOffline && <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5"><WifiOff size={14} className="text-orange-500" /></div>}
         </div>
@@ -172,16 +172,16 @@ function HomeView({ setScreen, isOffline }: { setScreen: (s: any) => void, isOff
       {/* Active Ticket Alert */}
       <button 
         onClick={() => setScreen('expert')}
-        className="w-full text-left mb-5 bg-white border border-green-200 rounded-2xl p-4 shadow-sm relative overflow-hidden active:scale-95 transition-transform block"
+        className="w-full text-left mb-5 bg-white border border-teal-200 rounded-2xl p-4 shadow-sm relative overflow-hidden active:scale-95 transition-transform block"
       >
-        <div className="absolute top-0 left-0 w-1.5 h-full bg-green-500"></div>
+        <div className="absolute top-0 left-0 w-1.5 h-full bg-orange-500"></div>
         <div className="flex justify-between items-center pl-2">
           <div>
-            <span className="text-[10px] font-bold text-green-600 uppercase tracking-widest block mb-1">Ticket Updated</span>
+            <span className="text-[10px] font-bold text-orange-600 uppercase tracking-widest block mb-1">Ticket Updated</span>
             <h3 className="font-bold text-gray-900 text-sm">Expert Assigned: Leaf Rust</h3>
             <p className="text-xs text-gray-500 mt-0.5">Dr. Suresh has reviewed your payload.</p>
           </div>
-          <div className="bg-green-50 text-green-700 p-2 rounded-full border border-green-100">
+          <div className="bg-orange-50 text-orange-700 p-2 rounded-full border border-orange-100">
             <ArrowRight size={16} />
           </div>
         </div>
@@ -191,12 +191,12 @@ function HomeView({ setScreen, isOffline }: { setScreen: (s: any) => void, isOff
         {/* Core AI Triage */}
         <button 
           onClick={() => setScreen('camera')}
-          className="col-span-2 bg-green-700 rounded-2xl p-5 text-white text-left shadow-lg relative overflow-hidden active:scale-95 transition-transform"
+          className="col-span-2 bg-teal-800 rounded-2xl p-5 text-white text-left shadow-lg relative overflow-hidden active:scale-95 transition-transform"
         >
-          <div className="absolute top-0 right-0 w-32 h-32 bg-green-600 rounded-full blur-2xl -mr-10 -mt-10 opacity-50"></div>
+          <div className="absolute top-0 right-0 w-32 h-32 bg-teal-700 rounded-full blur-2xl -mr-10 -mt-10 opacity-50"></div>
           <Camera size={28} className="mb-3 relative z-10" />
           <h2 className="text-lg font-bold text-white mb-1 relative z-10">Crop Disease Scan</h2>
-          <p className="text-green-100 text-xs relative z-10">Works fully offline using local Edge AI models.</p>
+          <p className="text-teal-100 text-xs relative z-10">Works fully offline using local Edge AI models.</p>
         </button>
 
         {/* Offline Input Calculator */}
@@ -243,13 +243,13 @@ function HomeView({ setScreen, isOffline }: { setScreen: (s: any) => void, isOff
           className="col-span-2 bg-slate-800 rounded-2xl p-4 text-left shadow-md flex items-center justify-between active:scale-95 transition-transform"
         >
           <div>
-            <h3 className="font-bold text-green-400 text-base mb-1 flex items-center gap-2">
+            <h3 className="font-bold text-emerald-400 text-base mb-1 flex items-center gap-2">
               <Hash size={16} /> USSD Market Shield
             </h3>
             <p className="text-slate-300 text-xs max-w-[200px]">Dial direct codes to check real Mandi prices offline.</p>
           </div>
           <div className="bg-slate-700 p-3 rounded-full text-white">
-            <Zap size={20} className="fill-current text-yellow-400" />
+            <Zap size={20} className="fill-current text-amber-400" />
           </div>
         </button>
       </div>
@@ -268,10 +268,11 @@ function CalculatorView({ onBack }: { onBack: () => void }) {
   const [cropType, setCropType] = useState('unknown');
   const [daysCategory, setDaysCategory] = useState<'seedling' | 'mid' | 'harvest' | 'unknown'>('unknown');
   const [moisture, setMoisture] = useState<'dry' | 'damp' | 'wet' | 'unknown'>('unknown');
+  const [useTensorflow, setUseTensorflow] = useState(true);
 
   const handleCalculate = () => {
     setLoading(true);
-    // Simulate ML calculation delay
+    // Simulate ML calculation delay calling the Python endpoint
     setTimeout(() => {
       setLoading(false);
       setCalculated(true);
@@ -322,7 +323,7 @@ function CalculatorView({ onBack }: { onBack: () => void }) {
        saved = 0; 
     }
 
-    return { water, npk, saved };
+    return { water, npk, saved, engine: useTensorflow ? "TensorFlow DNN" : "Scikit-Learn Regression" };
   };
 
   const rec = getRecommendation();
@@ -335,10 +336,19 @@ function CalculatorView({ onBack }: { onBack: () => void }) {
       </div>
 
       <div className="p-5 flex-1 flex flex-col">
-        <div className="bg-orange-50 border border-orange-100 p-4 rounded-xl mb-6">
-          <p className="text-sm text-orange-800 font-medium leading-relaxed">
+        <div className="bg-orange-50 border border-orange-100 p-4 rounded-xl mb-6 shadow-sm">
+          <p className="text-sm text-orange-800 font-medium leading-relaxed mb-3">
             Fertilizer is expensive. Enter your crop details below, and Edge ML will calculate the absolute <strong className="font-black">minimum</strong> needed to survive the week.
           </p>
+          <div className="flex items-center gap-2 pt-2 border-t border-orange-200/50">
+             <span className="text-xs font-bold text-amber-900">Backend Server Engine:</span>
+             <button 
+               onClick={() => setUseTensorflow(!useTensorflow)}
+               className={`text-[10px] px-2 py-1 rounded-sm font-bold transition-colors ${useTensorflow ? 'bg-indigo-600 text-white shadow-sm' : 'bg-gray-200 text-gray-700'}`}
+             >
+               {useTensorflow ? 'TensorFlow DNN' : 'Scikit-Learn Regression'}
+             </button>
+          </div>
         </div>
 
         <div className="space-y-6 flex-1">
@@ -423,7 +433,7 @@ function CalculatorView({ onBack }: { onBack: () => void }) {
           <div className="mt-6 bg-green-50 border border-green-200 rounded-2xl p-5 fade-in shadow-inner">
             <h3 className="font-bold text-green-900 border-b border-green-200 pb-2 mb-3 flex items-center justify-between">
               AI Recommendation
-              <span className="text-[10px] bg-green-600 text-white px-2 py-0.5 rounded uppercase tracking-wider">Edge ML</span>
+              <span className="text-[9px] bg-green-600 text-white px-2 py-0.5 rounded uppercase tracking-wider">{rec.engine}</span>
             </h3>
             <ul className="space-y-3 mb-4">
               <li className="flex flex-col text-sm border-b border-green-100 pb-2">
@@ -990,12 +1000,16 @@ function ChatView({ onBack, isOffline }: { onBack: () => void, isOffline: boolea
 function ExpertDirectoryView({ onBack, onSelectExpert, isOffline }: { onBack: () => void, onSelectExpert: (expert: any) => void, isOffline: boolean }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSpec, setSelectedSpec] = useState("All");
+  const [selectedLocation, setSelectedLocation] = useState("All");
   const [experts, setExperts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const prevOfflineRef = useRef(isOffline);
 
-  useEffect(() => {
-    // Simulated fetch from /api/v1/experts with offline caching logic
-    setLoading(true);
+  const fetchExperts = (isRefresh = false) => {
+    if (isRefresh) setIsRefreshing(true);
+    else setLoading(true);
+
     const timer = setTimeout(() => {
       setExperts([
         { id: 1, name: 'Dr. Suresh Kumar', spec: 'Wheat Pathology', location: 'Pune', rating: 4.9, initial: 'S' },
@@ -1003,30 +1017,62 @@ function ExpertDirectoryView({ onBack, onSelectExpert, isOffline }: { onBack: ()
         { id: 3, name: 'Govind Rao', spec: 'Soil Management', location: 'Nagpur', rating: 4.5, initial: 'G' },
         { id: 4, name: 'Dr. Neeta Patil', spec: 'Rice Agronomy', location: 'Pune', rating: 4.8, initial: 'N' },
         { id: 5, name: 'Arjun Desai', spec: 'Irrigation Mgmt', location: 'Solapur', rating: 4.4, initial: 'A' },
+        // Simulate finding new records when refreshed online
+        ...(isRefresh && !isOffline ? [{ id: 6, name: 'Dr. Vikas Sen (New)', spec: 'Soil Management', location: 'Pune', rating: 5.0, initial: 'V' }] : [])
       ]);
-      setLoading(false);
-    }, 600); // Mock network/cache delay
+      if (isRefresh) setIsRefreshing(false);
+      else setLoading(false);
+    }, 1200); // Mock network/cache delay
+
+    return timer;
+  };
+
+  // Initial mock cache load
+  useEffect(() => {
+    const timer = fetchExperts();
     return () => clearTimeout(timer);
   }, []);
 
-  // Compute unique specializations for the filter bar
+  // Auto-refresh strategy when coming back online
+  useEffect(() => {
+    if (prevOfflineRef.current && !isOffline) {
+      const timer = fetchExperts(true);
+      return () => clearTimeout(timer);
+    }
+    prevOfflineRef.current = isOffline;
+  }, [isOffline]);
+
+  // Compute unique filter options
   const specializations = ['All', ...Array.from(new Set(experts.map(e => e.spec)))];
+  const locations = ['All', ...Array.from(new Set(experts.map(e => e.location)))];
 
   const filtered = experts.filter(e => {
     const matchesSearch = e.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           e.spec.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           e.location.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesSpec = selectedSpec === 'All' || e.spec === selectedSpec;
-    return matchesSearch && matchesSpec;
+    const matchesLocation = selectedLocation === 'All' || e.location === selectedLocation;
+    return matchesSearch && matchesSpec && matchesLocation;
   });
 
   return (
     <div className="bg-slate-50 min-h-full flex flex-col fade-in relative">
       {/* Header & Search */}
       <div className="bg-indigo-700 px-4 pt-10 pb-6 rounded-b-[32px] shadow-md z-10">
-        <div className="flex items-center gap-3 mb-5 text-white">
-          <button onClick={onBack} className="p-2 -ml-2 rounded-full active:bg-indigo-600 transition-colors"><ArrowLeft size={24} /></button>
-          <h2 className="text-lg font-bold">Find an Expert</h2>
+        <div className="flex items-center justify-between mb-5 text-white">
+          <div className="flex items-center gap-3">
+            <button onClick={onBack} className="p-2 -ml-2 rounded-full active:bg-indigo-600 transition-colors"><ArrowLeft size={24} /></button>
+            <h2 className="text-lg font-bold">Find an Expert</h2>
+          </div>
+          {!isOffline && (
+            <button 
+              onClick={() => fetchExperts(true)} 
+              disabled={isRefreshing}
+              className="p-2 -mr-2 rounded-full active:bg-indigo-600 transition-colors disabled:opacity-50"
+            >
+              <RefreshCw size={20} className={isRefreshing ? 'animate-spin text-indigo-300' : 'text-white'} />
+            </button>
+          )}
         </div>
         
         {/* Search Bar */}
@@ -1037,36 +1083,68 @@ function ExpertDirectoryView({ onBack, onSelectExpert, isOffline }: { onBack: ()
           <input
             type="text"
             className="block w-full pl-10 pr-3 py-3 rounded-xl border-none bg-white/10 text-white placeholder-indigo-200 focus:ring-2 focus:ring-indigo-300 outline-none text-sm shadow-inner transition-colors focus:bg-white focus:text-gray-900"
-            placeholder="Search by name or city..."
+            placeholder="Search by name..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 
-        {/* Specialization Filter Pills */}
+        {/* Filters */}
         {!loading && (
-          <div className="flex gap-2 overflow-x-auto no-scrollbar -mx-4 px-4 pb-2">
-            {specializations.map(spec => (
-              <button
-                key={spec}
-                onClick={() => setSelectedSpec(spec)}
-                className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors border ${
-                  selectedSpec === spec 
-                    ? 'bg-white text-indigo-700 border-white' 
-                    : 'bg-indigo-800/50 text-indigo-100 border-indigo-500 hover:bg-indigo-600'
-                }`}
+          <div className="space-y-4">
+            {/* Location Select */}
+            <div className="flex items-center justify-between">
+              <label className="text-indigo-200 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
+                <MapPin size={12} /> Region
+              </label>
+              <select
+                value={selectedLocation}
+                onChange={(e) => setSelectedLocation(e.target.value)}
+                className="bg-indigo-800/80 text-white border border-indigo-500 rounded-lg px-3 py-1.5 text-xs font-bold outline-none focus:ring-2 focus:ring-white max-w-[180px]"
               >
-                {spec}
-              </button>
-            ))}
+                {locations.map(loc => (
+                  <option key={loc} value={loc} className="text-gray-900 bg-white">
+                    {loc === 'All' ? 'All Regions' : loc}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Specialization Filter Pills */}
+            <div className="flex gap-2 overflow-x-auto no-scrollbar -mx-4 px-4 pb-2">
+              {specializations.map(spec => (
+                <button
+                  key={spec}
+                  onClick={() => setSelectedSpec(spec)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors border ${
+                    selectedSpec === spec 
+                      ? 'bg-white text-indigo-700 border-white' 
+                      : 'bg-indigo-800/50 text-indigo-100 border-indigo-500 hover:bg-indigo-600'
+                  }`}
+                >
+                  {spec === 'All' ? 'All Roles' : spec}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>
 
+      {/* Connection & Refresh Context */}
       {isOffline && (
-        <div className="bg-amber-50 px-4 py-2 flex items-center justify-center gap-2 border-b border-amber-100">
-          <Database size={12} className="text-amber-500" />
-          <span className="text-[10px] uppercase font-bold text-amber-700 tracking-wider">Showing locally cached registry</span>
+        <div className="bg-amber-50 px-4 py-3 flex items-start gap-3 border-b border-amber-200">
+          <Database size={16} className="text-amber-500 shrink-0 mt-0.5" />
+          <div className="flex-1">
+            <p className="text-[11px] font-bold text-amber-800 uppercase tracking-widest leading-none mb-1">Locally Cached Registry</p>
+            <p className="text-xs text-amber-700 leading-tight">You are offline. Showing cached version; real-time updates are unavailable.</p>
+          </div>
+        </div>
+      )}
+
+      {!isOffline && isRefreshing && (
+        <div className="bg-indigo-50 px-4 py-2 flex items-center justify-center gap-2 border-b border-indigo-100 shadow-inner fade-in">
+          <RefreshCw size={14} className="text-indigo-500 animate-spin" />
+          <span className="text-[10px] uppercase font-bold text-indigo-700 tracking-wider">Syncing live directory...</span>
         </div>
       )}
 

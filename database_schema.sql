@@ -13,6 +13,7 @@ CREATE TABLE experts (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     full_name VARCHAR(255) NOT NULL,
     specialization VARCHAR(255),
+    location VARCHAR(100),
     tier INT NOT NULL CHECK (tier IN (1, 2, 3)), -- 1: Gov/Free, 2: University/Micro-fee, 3: Private/Premium
     rating NUMERIC(3, 2) DEFAULT 0.00,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
