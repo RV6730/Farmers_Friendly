@@ -44,7 +44,7 @@ class CropPredictionModel:
         self.is_trained = True
         logger.info(f"Model successfully trained. Sklearn R2: {sklearn_score:.4f}")
 
-    def predict_fertilizer(self, n: float, p: float, k: float, temp: float, moisture: float, use_tf: bool = True):
+    def predict_fertilizer(self, n: float, p: float, k: float, temp: float, moisture: float, use_tf: bool = False):
         """
         Predicts optimal fertilizer amount.
         Note: use_tf parameter kept for API compatibility but always uses Scikit-Learn now.
