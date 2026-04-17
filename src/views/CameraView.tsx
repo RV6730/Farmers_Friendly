@@ -4,9 +4,11 @@ import { Camera, Image as ImageIcon, ArrowLeft, Database } from 'lucide-react';
 // ==============================
 // 5. CAMERA & RESULT SHARED (from previous step)
 // ==============================
-export function CameraView({ onCapture, onBack }: { onCapture: () => void, onBack: () => void }) {
+export function CameraView({ onCapture, onBack, scanType = 'crop' }: { onCapture: () => void, onBack: () => void, scanType?: 'crop' | 'soil'}) {
   const [cropContext, setCropContext] = useState('');
   const [partContext, setPartContext] = useState('');
+  const [soilType, setSoilType] = useState('');
+  const [moisture, setMoisture] = useState('');
 
   return (
     <div className="h-full bg-black flex flex-col fade-in relative">
@@ -14,7 +16,9 @@ export function CameraView({ onCapture, onBack }: { onCapture: () => void, onBac
         <button onClick={onBack} className="p-2 bg-black/50 rounded-full border border-white/10 backdrop-blur-sm">
           <ArrowLeft size={24} />
         </button>
-        <span className="font-medium bg-black/50 px-4 py-1.5 rounded-full border border-white/10 text-sm backdrop-blur-sm">Scan Crop</span>
+        <span className="font-medium bg-black/50 px-4 py-1.5 rounded-full border border-white/10 text-sm backdrop-blur-sm">
+          {scanType === 'soil' ? 'Scan Soil' : 'Scan Crop'}
+        </span>
         <div className="w-10"></div>
       </div>
       
@@ -27,26 +31,53 @@ export function CameraView({ onCapture, onBack }: { onCapture: () => void, onBac
           <span className="text-white/40 text-[10px] font-bold uppercase tracking-widest bg-white/5 border border-white/10 px-2 py-0.5 rounded">Optional</span>
         </div>
         <div className="flex gap-2">
-          <select 
-            value={cropContext}
-            onChange={(e) => setCropContext(e.target.value)}
-            className="bg-white/10 text-white border border-white/20 rounded-xl p-2.5 text-sm flex-1 outline-none appearance-none font-medium"
-          >
-            <option value="" className="text-black">Select Crop...</option>
-            <option value="wheat" className="text-black">Wheat</option>
-            <option value="rice" className="text-black">Rice</option>
-            <option value="cotton" className="text-black">Cotton</option>
-          </select>
-          <select 
-            value={partContext}
-            onChange={(e) => setPartContext(e.target.value)}
-            className="bg-white/10 text-white border border-white/20 rounded-xl p-2.5 text-sm flex-1 outline-none appearance-none font-medium"
-          >
-            <option value="" className="text-black">Plant Part...</option>
-            <option value="leaf" className="text-black">Leaf</option>
-            <option value="stem" className="text-black">Stem</option>
-            <option value="fruit" className="text-black">Fruit/Crop</option>
-          </select>
+          {scanType === 'soil' ? (
+            <>
+              <select 
+                value={soilType}
+                onChange={(e) => setSoilType(e.target.value)}
+                className="bg-white/10 text-white border border-white/20 rounded-xl p-2.5 text-sm flex-1 outline-none appearance-none font-medium"
+              >
+                <option value="" className="text-black">Soil Region...</option>
+                <option value="black" className="text-black">Black/Regur</option>
+                <option value="red" className="text-black">Red/Yellow</option>
+                <option value="alluvial" className="text-black">Alluvial</option>
+              </select>
+              <select 
+                value={moisture}
+                onChange={(e) => setMoisture(e.target.value)}
+                className="bg-white/10 text-white border border-white/20 rounded-xl p-2.5 text-sm flex-1 outline-none appearance-none font-medium"
+              >
+                <option value="" className="text-black">Moisture...</option>
+                <option value="dry" className="text-black">Dry/Cracked</option>
+                <option value="damp" className="text-black">Damp</option>
+                <option value="wet" className="text-black">Wet/Muddy</option>
+              </select>
+            </>
+          ) : (
+            <>
+              <select 
+                value={cropContext}
+                onChange={(e) => setCropContext(e.target.value)}
+                className="bg-white/10 text-white border border-white/20 rounded-xl p-2.5 text-sm flex-1 outline-none appearance-none font-medium"
+              >
+                <option value="" className="text-black">Select Crop...</option>
+                <option value="wheat" className="text-black">Wheat</option>
+                <option value="rice" className="text-black">Rice</option>
+                <option value="cotton" className="text-black">Cotton</option>
+              </select>
+              <select 
+                value={partContext}
+                onChange={(e) => setPartContext(e.target.value)}
+                className="bg-white/10 text-white border border-white/20 rounded-xl p-2.5 text-sm flex-1 outline-none appearance-none font-medium"
+              >
+                <option value="" className="text-black">Plant Part...</option>
+                <option value="leaf" className="text-black">Leaf</option>
+                <option value="stem" className="text-black">Stem</option>
+                <option value="fruit" className="text-black">Fruit/Crop</option>
+              </select>
+            </>
+          )}
         </div>
         <p className="text-white/50 text-[10px] mt-3 leading-tight font-medium">Skipping these? No problem. The Edge AI will fallback to pure visual analysis.</p>
       </div>
@@ -59,12 +90,12 @@ export function CameraView({ onCapture, onBack }: { onCapture: () => void, onBac
           <div className="absolute -bottom-1 -right-1 w-8 h-8 border-b-4 border-r-4 border-green-500"></div>
         </div>
         <img 
-          src="https://picsum.photos/seed/leaf15/400/600" 
+          src={scanType === 'soil' ? "https://picsum.photos/seed/soil4/400/600" : "https://picsum.photos/seed/leaf15/400/600"} 
           alt="Camera view" 
           className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none" 
         />
         <div className="absolute bottom-10 bg-black/80 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg border border-black backdrop-blur-sm">
-          Point closely at the sick leaf
+          {scanType === 'soil' ? 'Point closely at a clear patch of topsoil' : 'Point closely at the sick leaf'}
         </div>
       </div>
 

@@ -22,9 +22,9 @@ const farmPlotCoords: [number, number][] = [
 ];
 const centerPos: [number, number] = [18.519, 73.856];
 
-// Recharts Data
+// Recharts Data (Realistic Soil Health Card values in kg/ha)
 const npkData = [
-  { name: 'Nitrogen (N)', Current: 18, Optimal: 50 },
+  { name: 'Nitrogen (N)', Current: 180, Optimal: 320 },
   { name: 'Phosphorus (P)', Current: 42, Optimal: 40 },
   { name: 'Potassium (K)', Current: 210, Optimal: 150 },
 ];

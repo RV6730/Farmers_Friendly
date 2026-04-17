@@ -10,3 +10,6 @@ export * from './ExpertView';
 export * from './ChatView';
 export * from './ExpertDirectoryView';
 export * from './GisMapView';
+export * from './SettingsView';
+export * from './LoginView';
+export * from './LanguageOnboardingView';

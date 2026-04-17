@@ -4,14 +4,40 @@ import { Camera, MapPin, WifiOff, Calculator, Radio, Hash, Droplet, Zap, ArrowRi
 // ==============================
 // 1. HOME DASHBOARD
 // ==============================
-export function HomeView({ setScreen, isOffline }: { setScreen: (s: any) => void, isOffline: boolean }) {
+export function HomeView({ setScreen, isOffline, language = 'en', userName = 'Ram', setScanType }: { setScreen: (s: any) => void, isOffline: boolean, language?: string, userName?: string, setScanType: (s: 'crop' | 'soil') => void }) {
+  const getGreeting = (lang: string, name: string) => {
+    // Basic fallback logic: if someone enters a name, we use it, otherwise "Ram".
+    const displayName = name || 'Ram';
+    switch (lang) {
+      case 'hi': return `नमस्ते, ${displayName} 👋`;
+      case 'mr': return `नमस्कार, ${displayName} 👋`;
+      case 'ta': return `வணக்கம், ${displayName} 👋`;
+      case 'te': return `నమస్కారం, ${displayName} 👋`;
+      case 'en':
+      default: return `Namaste, ${displayName} 👋`;
+    }
+  };
+
+  const getLocation = (lang: string) => {
+    switch (lang) {
+      case 'hi': return 'पुणे जिला';
+      case 'mr': return 'पुणे जिल्हा';
+      case 'ta': return 'புனே மாவட்டம்';
+      case 'te': return 'పూణే జిల్లా';
+      case 'en':
+      default: return 'Pune District';
+    }
+  };
+
   return (
     <div className="p-5">
       <div className="flex justify-between items-start mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white transition-colors duration-300">Namaste, Ram 👋</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white transition-colors duration-300">
+            {getGreeting(language, userName)}
+          </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1 mt-1 transition-colors duration-300">
-            <MapPin size={14} aria-label="Location" /> Pune District
+            <MapPin size={14} aria-label="Location" /> {getLocation(language)}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -22,10 +48,14 @@ export function HomeView({ setScreen, isOffline }: { setScreen: (s: any) => void
           >
             <Mic size={22} />
           </button>
-          <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900 rounded-full flex items-center justify-center text-amber-700 dark:text-amber-300 font-bold text-xl relative">
-            R
+          <button 
+            onClick={() => setScreen('settings')}
+            aria-label="Settings"
+            className="w-12 h-12 bg-amber-100 dark:bg-amber-900 rounded-full flex items-center justify-center text-amber-700 dark:text-amber-300 font-bold text-xl relative shadow-sm active:scale-95 transition-all outline-none focus:ring-2 focus:ring-amber-500"
+          >
+            {userName ? userName.charAt(0).toUpperCase() : 'R'}
             {isOffline && <div className="absolute -bottom-1 -right-1 bg-white dark:bg-slate-900 rounded-full p-0.5"><WifiOff size={14} className="text-orange-500 dark:text-orange-400" aria-label="Offline" /></div>}
-          </div>
+          </button>
         </div>
       </div>
 
@@ -48,13 +78,25 @@ export function HomeView({ setScreen, isOffline }: { setScreen: (s: any) => void
         {/* Core AI Triage */}
         <button 
           aria-label="Crop Disease Scan"
-          onClick={() => setScreen('camera')}
-          className="col-span-2 bg-teal-800 dark:bg-teal-900 rounded-2xl p-5 text-white text-left shadow-lg relative overflow-hidden active:scale-95 transition-all outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
+          onClick={() => { setScanType('crop'); setScreen('camera') }}
+          className="bg-teal-800 dark:bg-teal-900 rounded-2xl p-5 text-white text-left shadow-lg relative overflow-hidden active:scale-95 transition-all outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
         >
           <div className="absolute top-0 right-0 w-32 h-32 bg-teal-700 dark:bg-teal-800 rounded-full blur-2xl -mr-10 -mt-10 opacity-50"></div>
           <Camera size={28} className="mb-3 relative z-10" aria-label="Camera icon" />
-          <h2 className="text-lg font-bold text-white mb-1 relative z-10">Crop Disease Scan</h2>
-          <p className="text-teal-100 dark:text-teal-200 text-xs relative z-10">Works fully offline using local Edge AI models.</p>
+          <h2 className="text-sm font-bold text-white mb-1 relative z-10 leading-tight">Crop Disease Scan</h2>
+          <p className="text-teal-100 dark:text-teal-200 text-[10px] relative z-10">Works fully offline using local Edge AI.</p>
+        </button>
+
+        {/* Soil Analysis */}
+        <button 
+          aria-label="Soil Analysis"
+          onClick={() => { setScanType('soil'); setScreen('camera') }}
+          className="bg-amber-800 dark:bg-amber-900 rounded-2xl p-5 text-white text-left shadow-lg relative overflow-hidden active:scale-95 transition-all outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
+        >
+          <div className="absolute top-0 right-0 w-32 h-32 bg-amber-700 dark:bg-amber-800 rounded-full blur-2xl -mr-10 -mt-10 opacity-50"></div>
+          <Droplet size={28} className="mb-3 relative z-10 text-amber-300" aria-label="Soil icon" />
+          <h2 className="text-sm font-bold text-white mb-1 relative z-10 leading-tight">Soil Nutrient Scan</h2>
+          <p className="text-amber-100 dark:text-amber-200 text-[10px] relative z-10">Image comparison & NPK breakdown.</p>
         </button>
 
         {/* Offline Input Calculator */}

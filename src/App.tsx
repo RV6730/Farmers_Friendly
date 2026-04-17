@@ -15,7 +15,10 @@ import {
   ExpertView, 
   ChatView, 
   ExpertDirectoryView,
-  GisMapView
+  GisMapView,
+  SettingsView,
+  LoginView,
+  LanguageOnboardingView
 } from './views';
 
 export default function App() {
@@ -24,6 +27,10 @@ export default function App() {
   const [meshConnected, setMeshConnected] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [selectedExpert, setSelectedExpert] = useState<any>(null);
+  const [language, setLanguage] = useState<string>('en');
+  const [userName, setUserName] = useState<string>('');
+  const [userPhone, setUserPhone] = useState<string>('');
+  const [scanType, setScanType] = useState<'crop' | 'soil'>('crop');
 
   const handleAskExpert = () => {
     queuePayload();
@@ -34,6 +41,14 @@ export default function App() {
     setSelectedExpert(expert);
     setScreen('expert');
   };
+
+  const handleLogin = (name: string, phone: string) => {
+    setUserName(name);
+    setUserPhone(phone);
+    setScreen('onboardingLanguage');
+  };
+
+  const isAuthScreen = screen === 'login' || screen === 'onboardingLanguage';
 
   return (
     <div className={`min-h-screen bg-[#F4F1EA] flex flex-col lg:flex-row items-center justify-center p-4 gap-8 font-sans ${isDarkMode ? 'dark' : ''}`}>
@@ -102,10 +117,12 @@ export default function App() {
               className="absolute inset-0"
             >
               <div className="h-full overflow-y-auto pb-16">
-                {screen === 'home' && <HomeView setScreen={setScreen} isOffline={isOffline} />}
-                {screen === 'camera' && <CameraView onCapture={() => setScreen('analyzing')} onBack={() => setScreen('home')} />}
-                {screen === 'analyzing' && <AnalyzingView />}
-                {screen === 'result' && <ResultView onAskExpert={handleAskExpert} onBack={() => setScreen('home')} isOffline={isOffline} />}
+                {screen === 'login' && <LoginView onLogin={handleLogin} />}
+                {screen === 'onboardingLanguage' && <LanguageOnboardingView language={language} setLanguage={setLanguage} onComplete={() => setScreen('home')} />}
+                {screen === 'home' && <HomeView setScreen={setScreen} isOffline={isOffline} language={language} userName={userName} setScanType={setScanType} />}
+                {screen === 'camera' && <CameraView onCapture={() => setScreen('analyzing')} onBack={() => setScreen('home')} scanType={scanType} />}
+                {screen === 'analyzing' && <AnalyzingView title={scanType === 'soil' ? 'Analyzing Soil Nutrients...' : 'Analyzing Crop Health...'} />}
+                {screen === 'result' && <ResultView onAskExpert={handleAskExpert} onBack={() => setScreen('home')} isOffline={isOffline} scanType={scanType} />}
                 {screen === 'sent' && <SentView onHome={() => setScreen('home')} isOffline={isOffline} />}
                 {screen === 'calculator' && <CalculatorView onBack={() => setScreen('home')} />}
                 {screen === 'mesh' && <MeshView onBack={() => setScreen('home')} meshConnected={meshConnected} />}
@@ -114,13 +131,14 @@ export default function App() {
                 {screen === 'chat' && <ChatView onBack={() => setScreen('expert')} isOffline={isOffline} />}
                 {screen === 'expertDirectory' && <ExpertDirectoryView onBack={() => setScreen('home')} onSelectExpert={handleSelectExpert} isOffline={isOffline} />}
                 {screen === 'gis' && <GisMapView onBack={() => setScreen('home')} setScreen={setScreen} isOffline={isOffline} />}
+                {screen === 'settings' && <SettingsView onBack={() => setScreen('home')} isOffline={isOffline} language={language} setLanguage={setLanguage} />}
               </div>
             </motion.div>
           </AnimatePresence>
         </div>
 
-        <SyncBar screen={screen} syncStatus={syncStatus} pendingPhotos={pendingPhotos} />
-        <BottomNav screen={screen} setScreen={setScreen} />
+        {!isAuthScreen && <SyncBar screen={screen} syncStatus={syncStatus} pendingPhotos={pendingPhotos} />}
+        {!isAuthScreen && <BottomNav screen={screen} setScreen={setScreen} />}
       </DeviceFrame>
     </div>
   );
