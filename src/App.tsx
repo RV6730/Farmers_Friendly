@@ -22,10 +22,16 @@ export default function App() {
   const { isOffline, setIsOffline, pendingPhotos, syncStatus, queuePayload } = useOfflineSync();
   const [meshConnected, setMeshConnected] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [selectedExpert, setSelectedExpert] = useState<any>(null);
 
   const handleAskExpert = () => {
     queuePayload();
     setScreen('sent');
+  };
+
+  const handleSelectExpert = (expert: any) => {
+    setSelectedExpert(expert);
+    setScreen('expert');
   };
 
   return (
@@ -103,9 +109,9 @@ export default function App() {
                 {screen === 'calculator' && <CalculatorView onBack={() => setScreen('home')} />}
                 {screen === 'mesh' && <MeshView onBack={() => setScreen('home')} meshConnected={meshConnected} />}
                 {screen === 'ussd' && <UssdView onBack={() => setScreen('home')} />}
-                {screen === 'expert' && <ExpertView onBack={() => setScreen('home')} onChat={() => setScreen('chat')} />}
+                {screen === 'expert' && <ExpertView onBack={() => setScreen('home')} onChat={() => setScreen('chat')} expert={selectedExpert} />}
                 {screen === 'chat' && <ChatView onBack={() => setScreen('expert')} isOffline={isOffline} />}
-                {screen === 'expertDirectory' && <ExpertDirectoryView onBack={() => setScreen('home')} onSelectExpert={() => setScreen('expert')} isOffline={isOffline} />}
+                {screen === 'expertDirectory' && <ExpertDirectoryView onBack={() => setScreen('home')} onSelectExpert={handleSelectExpert} isOffline={isOffline} />}
               </div>
             </motion.div>
           </AnimatePresence>
